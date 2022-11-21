@@ -99,9 +99,28 @@ const updateUserById = (req, res) => {
     });
 };
 
+const deleteUserById = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  database
+    .query("delete from users where id = ?", [id])
+    .then(([users]) => {
+      if (users.affectedRow === 0) {
+        res.status(404).send("Users not found");
+      } else {
+        res.sendStatus(204).send("User deleted");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error editing database users");
+    });
+};
+
 module.exports = {
   getUsers,
   getUserById,
   postUser,
   updateUserById,
+  deleteUserById,
 };
