@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 const database = require("./database");
 
 // const movies = [
@@ -57,7 +58,27 @@ const getUserById = (req, res) => {
     });
 };
 
+const postUser = (req, res) => {
+  const { firstname, lastname, email, city, language } = req.body;
+  database
+    .query(
+      "INSERT INTO users(firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?)",
+      [firstname, lastname, email, city, language]
+    )
+    .then(([result]) => {
+      res
+        .location(`result/api/users/${result.insertID}`)
+        .status(201)
+        .send("User created");
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error saving a new user");
+    });
+};
+
 module.exports = {
   getUsers,
   getUserById,
+  postUser,
 };
