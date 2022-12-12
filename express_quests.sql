@@ -63,51 +63,58 @@ CREATE TABLE users (
     lastname varchar(255) NOT NULL,
     email varchar(255) UNIQUE NOT NULL,
     city varchar(255) DEFAULT NULL,
-    language varchar(255) DEFAULT NULL
+    language varchar(255) DEFAULT NULL,
+    hashedPassword varchar(255) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 INSERT INTO
-  users (firstname, lastname, email, city, language)
+  users (firstname, lastname, email, city, language, hashedPassword)
 VALUES
   (
     'John',
     'Doe',
     'john.doe@example.com',
     'Paris',
-    'English'
+    'English',
+    'testpasswordargon2!!'
   ),
   (
     'Valeriy',
     'Appius',
     'valeriy.appius@example.com',
     'Moscow',
-    'Russian'
+    'Russian',
+    'testpasswordargon2??'
   ),
   (
     'Ralf',
     'Geronimo',
     'ralf.geronimo@example.com',
     'New York',
-    'Italian'
+    'Italian',
+    'testpasswordargon2!$$!'
   ),
   (
     'Maria',
     'Iskandar',
     'maria.iskandar@example.com',
     'New York',
-    'German'
+    'German',
+    'testpasswordargon2!??!'
   ),
   (
     'Jane',
     'Doe',
     'jane.doe@example.com',
     'London',
-    'English'
+    'English',
+    'testpasswordargon2!!**'
   ),
   (
     'Johanna',
     'Martino',
     'johanna.martino@example.com',
     'Milan',
-    'Spanish'
+    'Spanish',
+    'testpasswordargon2!**!$$'
   );
