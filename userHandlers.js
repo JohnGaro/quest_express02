@@ -1,32 +1,6 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable radix */
 const database = require("./database");
-
-// const movies = [
-//   {
-//     id: 1,
-//     title: "Citizen Kane",
-//     director: "Orson Wells",
-//     year: "1941",
-//     colors: false,
-//     duration: 120,
-//   },
-//   {
-//     id: 2,
-//     title: "The Godfather",
-//     director: "Francis Ford Coppola",
-//     year: "1972",
-//     colors: true,
-//     duration: 180,
-//   },
-//   {
-//     id: 3,
-//     title: "Pulp Fiction",
-//     director: "Quentin Tarantino",
-//     year: "1994",
-//     color: true,
-//     duration: 180,
-//   },
-// ];
 
 const getUsers = (req, res) => {
   let sql = "select * from users";
@@ -134,10 +108,31 @@ const deleteUserById = (req, res) => {
     });
 };
 
+const getUserByEmailWithPasswordAndPassToNext = (req, res, next) => {
+  const { email } = req.body;
+
+  database
+    .query("select * from users where email = ?", [email])
+    .then(([users]) => {
+      if (users[0] != null) {
+        req.user = users[0];
+
+        next();
+      } else {
+        res.status(401);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error retrieving data from database");
+    });
+};
+
 module.exports = {
   getUsers,
   getUserById,
   postUser,
   updateUserById,
   deleteUserById,
+  getUserByEmailWithPasswordAndPassToNext,
 };
